@@ -19,27 +19,27 @@ All clips use a shuffled playlist system - every clip plays once before any repe
 
 **Session start**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/session-start.mp4
+https://github.com/user-attachments/assets/39e12185-4e21-4e56-9146-60ecf8e21056
 
 **Task completion**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/task-completion.mp4
+https://github.com/user-attachments/assets/51cc2de7-eef5-4ee0-a4c0-91477bbea495
 
 **Question**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/question.mp4
+https://github.com/user-attachments/assets/3b8cb9d1-034a-4f3a-8993-cabb5f7ccf0a
 
 **Plan**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/plan.mp4
+https://github.com/user-attachments/assets/a6eb2c32-e109-47fd-a947-b4dd845eb953
 
 **Error**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/error.mp4
+https://github.com/user-attachments/assets/0f6e874a-573e-4a37-b9d3-d1b87c6b9b5f
 
 **Permission**
 
-https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/permission.mp4
+https://github.com/user-attachments/assets/0d7942b6-5204-4848-8d5f-61e6b17f8691
 
 ## Requirements
 
