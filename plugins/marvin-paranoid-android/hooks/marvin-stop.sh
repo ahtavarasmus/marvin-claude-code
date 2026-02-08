@@ -10,6 +10,12 @@ if [ "$stop_hook_active" = "true" ]; then
     exit 0
 fi
 
+# Check config - skip if disabled
+CONFIG="$HOME/.config/marvin/config.json"
+if [ -f "$CONFIG" ] && [ "$(jq -r '.stop // true' "$CONFIG" 2>/dev/null)" = "false" ]; then
+    exit 0
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
 PLAYLIST="$AUDIO_DIR/.playlist"

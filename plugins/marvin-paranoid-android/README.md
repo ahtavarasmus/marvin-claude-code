@@ -90,9 +90,37 @@ claude plugin uninstall marvin-paranoid-android@marvin-marketplace
 claude plugin marketplace remove marvin-marketplace
 ```
 
+## Configuration
+
+You can disable individual hooks by creating `~/.config/marvin/config.json`:
+
+```json
+{
+  "session": true,
+  "stop": true,
+  "question": true,
+  "plan": true,
+  "error": true,
+  "permission": false
+}
+```
+
+Set any hook to `false` to disable it. If the config file doesn't exist, all hooks are enabled by default.
+
+| Key | Hook event |
+|-----|------------|
+| `session` | Session start greeting |
+| `stop` | Task completion commentary |
+| `question` | Reaction to Claude asking questions |
+| `plan` | Reaction to plans being presented |
+| `error` | Reaction to tool failures |
+| `permission` | Commentary on permission requests |
+
+Run `/marvin-status` to see current settings.
+
 ## Commands
 
-- `/marvin-status` - Show clip counts and playlist status
+- `/marvin-status` - Show clip counts, playlist status, and hook settings
 
 ## How It Works
 
