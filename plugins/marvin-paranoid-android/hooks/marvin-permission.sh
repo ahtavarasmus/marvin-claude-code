@@ -19,6 +19,18 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
+
+# Cooldown: skip if a permission clip played within the last 2 seconds
+COOLDOWN_FILE="$AUDIO_DIR/.permission_cooldown"
+if [ -f "$COOLDOWN_FILE" ]; then
+    last=$(cat "$COOLDOWN_FILE" 2>/dev/null)
+    now=$(date +%s)
+    if [ -n "$last" ] && [ $((now - last)) -lt 2 ]; then
+        exit 0
+    fi
+fi
+date +%s > "$COOLDOWN_FILE"
+
 PLAYLIST="$AUDIO_DIR/.permission_playlist"
 
 if [ ! -s "$PLAYLIST" ]; then

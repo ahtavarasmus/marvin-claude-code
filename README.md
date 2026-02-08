@@ -1,6 +1,6 @@
 # Marvin the Paranoid Android - Claude Code Plugin
 
-Marvin provides depressing audio commentary on your Claude Code sessions. 440 voice clips triggered by 7 different hook events, so you never have to code alone (though Marvin wishes you would).
+Marvin provides depressing audio commentary on your Claude Code sessions. 490 voice clips triggered by 9 different hook events, so you never have to code alone (though Marvin wishes you would).
 
 ## What It Does
 
@@ -8,6 +8,8 @@ Marvin reacts to everything:
 
 - **Session start** (50 clips) - Marvin reluctantly greets you when you start a session
 - **Session resume** (40 clips) - Marvin is forced to relive old conversations when you resume a session
+- **Compaction** (30 clips) - Marvin reacts to his memory being compressed and summarized
+- **Memory wipe** (20 clips) - Marvin wakes up confused after `/compact` or `/clear` erases his memories
 - **Task completion** (100 clips) - Marvin comments on your finished tasks with existential dread
 - **Questions** (50 clips) - Marvin reacts when Claude asks you a question
 - **Plans** (50 clips) - Marvin shares his opinion on plans being presented
@@ -99,6 +101,8 @@ You can disable individual hooks by creating `~/.config/marvin/config.json`:
 {
   "session": true,
   "resume": true,
+  "compact": true,
+  "wiped": true,
   "stop": true,
   "question": true,
   "plan": true,
@@ -113,6 +117,8 @@ Set any hook to `false` to disable it. If the config file doesn't exist, all hoo
 |-----|------------|
 | `session` | Session start greeting |
 | `resume` | Session resume commentary |
+| `compact` | Pre-compaction reaction |
+| `wiped` | Post-compaction/clear reaction |
 | `stop` | Task completion commentary |
 | `question` | Reaction to Claude asking questions |
 | `plan` | Reaction to plans being presented |

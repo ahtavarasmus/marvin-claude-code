@@ -1,27 +1,21 @@
 #!/bin/bash
-# Marvin greets you when a session starts
+# Marvin reacts to his memory being compacted/summarized
 # Uses shuffled playlist (same approach as other hooks)
 
 input=$(cat)
 
-# Only play on fresh startup, not resume/compact/clear
-source=$(echo "$input" | jq -r '.source // "startup"' 2>/dev/null)
-if [ "$source" != "startup" ]; then
-    exit 0
-fi
-
 # Check config - skip if disabled
 CONFIG="$HOME/.config/marvin/config.json"
-if [ -f "$CONFIG" ] && [ "$(jq -r '.session // true' "$CONFIG" 2>/dev/null)" = "false" ]; then
+if [ -f "$CONFIG" ] && [ "$(jq -r '.compact // true' "$CONFIG" 2>/dev/null)" = "false" ]; then
     exit 0
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
-PLAYLIST="$AUDIO_DIR/.session_playlist"
+PLAYLIST="$AUDIO_DIR/.compact_playlist"
 
 if [ ! -s "$PLAYLIST" ]; then
-    ls "$AUDIO_DIR"/marvin_session_*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
+    ls "$AUDIO_DIR"/marvin_compact_*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
 fi
 
 clip=$(head -1 "$PLAYLIST")

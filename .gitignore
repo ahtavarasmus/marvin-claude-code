@@ -6,5 +6,8 @@
 **/.error_playlist
 **/.permission_playlist
 **/.resume_playlist
+**/.compact_playlist
+**/.wiped_playlist
+**/.permission_cooldown
 *.tmp
 .DS_Store
