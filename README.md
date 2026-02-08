@@ -15,6 +15,17 @@ Marvin reacts to everything:
 
 All clips use a shuffled playlist system - every clip plays once before any repeats.
 
+## Sample Clips
+
+| Event | Listen |
+|-------|--------|
+| Session start | [session-start.mp3](samples/session-start.mp3) |
+| Task completion | [task-completion.mp3](samples/task-completion.mp3) |
+| Question | [question.mp3](samples/question.mp3) |
+| Plan | [plan.mp3](samples/plan.mp3) |
+| Error | [error.mp3](samples/error.mp3) |
+| Permission | [permission.mp3](samples/permission.mp3) |
+
 ## Requirements
 
 - macOS (uses `afplay` for audio playback)
@@ -25,7 +36,8 @@ All clips use a shuffled playlist system - every clip plays once before any repe
 ### Option 1: Install via Claude Code CLI
 
 ```bash
-claude plugins add marvin-paranoid-android --marketplace-repo ahtavarasmus/marvin-claude-code
+claude plugin marketplace add ahtavarasmus/marvin-claude-code
+claude plugin install marvin-paranoid-android@marvin-marketplace
 ```
 
 ### Option 2: Add the marketplace to settings manually
@@ -58,7 +70,10 @@ Restart Claude Code. You should hear Marvin reluctantly greet you. If you don't 
 
 ### Uninstalling
 
-Remove the `marvin-paranoid-android@marvin-marketplace` entry from `enabledPlugins` in `~/.claude/settings.json` and restart Claude Code.
+```bash
+claude plugin uninstall marvin-paranoid-android@marvin-marketplace
+claude plugin marketplace remove marvin-marketplace
+```
 
 ## Commands
 
