@@ -1,0 +1,9 @@
+# Playlist state files (generated at runtime)
+**/.playlist
+**/.session_playlist
+**/.question_playlist
+**/.plan_playlist
+**/.error_playlist
+**/.permission_playlist
+*.tmp
+.DS_Store

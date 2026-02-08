@@ -1,0 +1,29 @@
+#!/bin/bash
+# Marvin the Paranoid Android - stop hook
+# Marvin comments on your completed tasks with existential despair.
+# Uses a shuffled playlist so every clip plays before any repeats.
+
+# Read stdin (stop hook input) and check for loop prevention
+input=$(cat)
+stop_hook_active=$(echo "$input" | jq -r '.stop_hook_active // false')
+if [ "$stop_hook_active" = "true" ]; then
+    exit 0
+fi
+
+AUDIO_DIR="${CLAUDE_PLUGIN_ROOT}/audio"
+PLAYLIST="$AUDIO_DIR/.playlist"
+
+# If playlist is empty or missing, reshuffle all clips
+if [ ! -s "$PLAYLIST" ]; then
+    ls "$AUDIO_DIR"/marvin_[0-9]*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
+fi
+
+# Pop the first clip from the playlist
+clip=$(head -1 "$PLAYLIST")
+tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
+
+if [ -n "$clip" ] && [ -f "$clip" ]; then
+    afplay "$clip" &
+fi
+
+exit 0

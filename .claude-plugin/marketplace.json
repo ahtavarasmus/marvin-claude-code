@@ -1,0 +1,20 @@
+{
+  "name": "marvin-marketplace",
+  "owner": {
+    "name": "Rasmus Ahtava",
+    "url": "https://github.com/ahtavarasmus"
+  },
+  "metadata": {
+    "description": "Marvin the Paranoid Android audio hooks for Claude Code - 400 voice clips that react to your coding sessions",
+    "version": "1.0.0",
+    "repository": "https://github.com/ahtavarasmus/marvin-claude-code"
+  },
+  "plugins": [
+    {
+      "name": "marvin-paranoid-android",
+      "description": "Marvin the Paranoid Android provides depressing commentary on your Claude Code sessions via 400 voice clips triggered by hooks",
+      "source": "./plugins/marvin-paranoid-android",
+      "strict": false
+    }
+  ]
+}
