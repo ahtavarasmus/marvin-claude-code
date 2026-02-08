@@ -42,6 +42,7 @@ tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
 if [ -n "$clip" ] && [ -f "$clip" ]; then
     afplay "$clip" &
+    echo $! > "$AUDIO_DIR/.permission_pid"
 fi
 
 exit 0

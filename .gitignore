@@ -9,5 +9,6 @@
 **/.compact_playlist
 **/.wiped_playlist
 **/.permission_cooldown
+**/.permission_pid
 *.tmp
 .DS_Store
