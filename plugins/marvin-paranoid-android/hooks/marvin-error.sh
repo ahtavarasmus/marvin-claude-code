@@ -4,7 +4,8 @@
 
 input=$(cat)
 
-AUDIO_DIR="${CLAUDE_PLUGIN_ROOT}/audio"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
 PLAYLIST="$AUDIO_DIR/.error_playlist"
 
 if [ ! -s "$PLAYLIST" ]; then

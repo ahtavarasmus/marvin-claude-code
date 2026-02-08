@@ -11,7 +11,8 @@ if [ "$tool_name" = "AskUserQuestion" ] || [ "$tool_name" = "ExitPlanMode" ]; th
     exit 0
 fi
 
-AUDIO_DIR="${CLAUDE_PLUGIN_ROOT}/audio"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
 PLAYLIST="$AUDIO_DIR/.permission_playlist"
 
 if [ ! -s "$PLAYLIST" ]; then

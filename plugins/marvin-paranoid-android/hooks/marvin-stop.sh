@@ -10,7 +10,8 @@ if [ "$stop_hook_active" = "true" ]; then
     exit 0
 fi
 
-AUDIO_DIR="${CLAUDE_PLUGIN_ROOT}/audio"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
 PLAYLIST="$AUDIO_DIR/.playlist"
 
 # If playlist is empty or missing, reshuffle all clips
