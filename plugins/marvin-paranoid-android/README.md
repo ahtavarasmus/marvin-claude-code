@@ -22,7 +22,15 @@ All clips use a shuffled playlist system - every clip plays once before any repe
 
 ## Installation
 
-Add to your `~/.claude/settings.json`:
+### Option 1: Install via Claude Code CLI
+
+```bash
+claude plugins add marvin-paranoid-android --marketplace-repo ahtavarasmus/marvin-claude-code
+```
+
+### Option 2: Add the marketplace to settings manually
+
+Open `~/.claude/settings.json` and merge in:
 
 ```json
 {
@@ -37,7 +45,20 @@ Add to your `~/.claude/settings.json`:
 }
 ```
 
-Then restart Claude Code. Marvin will greet you on session start.
+If you already have `enabledPlugins` or other keys in your settings, add the new entries to the existing objects - don't replace them.
+
+### Verify it works
+
+Restart Claude Code. You should hear Marvin reluctantly greet you. If you don't hear anything:
+
+1. Check that your system volume is on
+2. Verify `jq` is installed: `which jq` (install with `brew install jq`)
+3. Verify `afplay` works: `afplay /System/Library/Sounds/Glass.aiff`
+4. Check the plugin loaded: run `/marvin-status` inside Claude Code
+
+### Uninstalling
+
+Remove the `marvin-paranoid-android@marvin-marketplace` entry from `enabledPlugins` in `~/.claude/settings.json` and restart Claude Code.
 
 ## Commands
 
