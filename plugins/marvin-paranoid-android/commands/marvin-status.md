@@ -17,6 +17,9 @@ Example config to disable permission hooks:
 ```json
 {
   "session": true,
+  "resume": true,
+  "compact": true,
+  "wiped": true,
   "stop": true,
   "question": true,
   "plan": true,
