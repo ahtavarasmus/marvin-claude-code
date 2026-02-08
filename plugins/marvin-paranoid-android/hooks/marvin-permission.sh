@@ -45,7 +45,7 @@ if [ -n "$clip" ] && [ -f "$clip" ]; then
     if [ -f "$MARVIN_PID" ]; then
         kill "$(cat "$MARVIN_PID" 2>/dev/null)" 2>/dev/null
     fi
-    afplay "$clip" &>/dev/null &
+    afplay "$clip" </dev/null &>/dev/null &
     echo $! > "$MARVIN_PID"
     echo $! > "$AUDIO_DIR/.permission_pid"
     disown $!
