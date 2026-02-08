@@ -22,7 +22,7 @@ clip=$(head -1 "$PLAYLIST")
 tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
 if [ -n "$clip" ] && [ -f "$clip" ]; then
-    afplay "$clip" &
+    (afplay "$clip" &>/dev/null &)
 fi
 
 exit 0
