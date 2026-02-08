@@ -18,22 +18,28 @@ All clips use a shuffled playlist system - every clip plays once before any repe
 ## Sample Clips
 
 **Session start**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/session-start.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/session-start.mp4
 
 **Task completion**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/task-completion.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/task-completion.mp4
 
 **Question**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/question.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/question.mp4
 
 **Plan**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/plan.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/plan.mp4
 
 **Error**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/error.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/error.mp4
 
 **Permission**
-<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/permission.mp3"></audio>
+
+https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/permission.mp4
 
 ## Requirements
 
