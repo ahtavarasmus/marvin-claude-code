@@ -10,5 +10,6 @@
 **/.wiped_playlist
 **/.permission_cooldown
 **/.permission_pid
+**/.marvin_pid
 *.tmp
 .DS_Store
