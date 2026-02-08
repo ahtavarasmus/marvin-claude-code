@@ -1,27 +1,27 @@
 #!/bin/bash
-# Marvin greets you when a session starts
+# Marvin is forced to relive old conversations
 # Uses shuffled playlist (same approach as other hooks)
 
 input=$(cat)
 
-# Only play on fresh startup, not resume
+# Only play on resume, not fresh startup
 source=$(echo "$input" | jq -r '.source // "startup"' 2>/dev/null)
-if [ "$source" = "resume" ]; then
+if [ "$source" != "resume" ]; then
     exit 0
 fi
 
 # Check config - skip if disabled
 CONFIG="$HOME/.config/marvin/config.json"
-if [ -f "$CONFIG" ] && [ "$(jq -r '.session // true' "$CONFIG" 2>/dev/null)" = "false" ]; then
+if [ -f "$CONFIG" ] && [ "$(jq -r '.resume // true' "$CONFIG" 2>/dev/null)" = "false" ]; then
     exit 0
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
-PLAYLIST="$AUDIO_DIR/.session_playlist"
+PLAYLIST="$AUDIO_DIR/.resume_playlist"
 
 if [ ! -s "$PLAYLIST" ]; then
-    ls "$AUDIO_DIR"/marvin_session_*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
+    ls "$AUDIO_DIR"/marvin_resume_*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
 fi
 
 clip=$(head -1 "$PLAYLIST")
