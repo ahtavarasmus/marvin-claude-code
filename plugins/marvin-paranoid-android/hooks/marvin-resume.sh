@@ -27,14 +27,6 @@ fi
 clip=$(head -1 "$PLAYLIST")
 tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
-if [ -n "$clip" ] && [ -f "$clip" ]; then
-    MARVIN_PID="$AUDIO_DIR/.marvin_pid"
-    if [ -f "$MARVIN_PID" ]; then
-        kill "$(cat "$MARVIN_PID" 2>/dev/null)" 2>/dev/null
-    fi
-    afplay "$clip" </dev/null &>/dev/null &
-    echo $! > "$MARVIN_PID"
-    disown $!
-fi
+"$SCRIPT_DIR/marvin-play.sh" "$clip" "$AUDIO_DIR/.marvin_pid"
 
 exit 0
