@@ -17,14 +17,23 @@ All clips use a shuffled playlist system - every clip plays once before any repe
 
 ## Sample Clips
 
-| Event | Listen |
-|-------|--------|
-| Session start | [session-start.mp3](samples/session-start.mp3) |
-| Task completion | [task-completion.mp3](samples/task-completion.mp3) |
-| Question | [question.mp3](samples/question.mp3) |
-| Plan | [plan.mp3](samples/plan.mp3) |
-| Error | [error.mp3](samples/error.mp3) |
-| Permission | [permission.mp3](samples/permission.mp3) |
+**Session start**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/session-start.mp3"></audio>
+
+**Task completion**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/task-completion.mp3"></audio>
+
+**Question**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/question.mp3"></audio>
+
+**Plan**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/plan.mp3"></audio>
+
+**Error**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/error.mp3"></audio>
+
+**Permission**
+<audio controls src="https://github.com/ahtavarasmus/marvin-claude-code/raw/main/samples/permission.mp3"></audio>
 
 ## Requirements
 
