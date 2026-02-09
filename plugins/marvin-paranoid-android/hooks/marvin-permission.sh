@@ -52,7 +52,8 @@ if [ -n "$clip" ] && [ -f "$clip" ]; then
     printf '%s\n' "$clip" > "$pending_file"
 
     (
-        sleep 4
+        delay=$(jq -r '.permission_delay // 5' "$HOME/.config/marvin/config.json" 2>/dev/null || echo 5)
+        sleep "$delay"
         if [ -f "$pending_file" ]; then
             clip_path=$(cat "$pending_file" 2>/dev/null)
             rm -f "$pending_file"
