@@ -193,10 +193,11 @@ def cleanup_old_temp_files(keep=5):
 
 
 def play_clip(clip_path, script_dir):
-    """Play audio clip via audio_queue.sh."""
-    queue_script = os.path.join(script_dir, "audio_queue.sh")
+    """Play audio clip via marvin-play.sh."""
+    play_script = os.path.join(script_dir, "marvin-play.sh")
+    pid_file = os.path.join(os.path.dirname(script_dir), "audio", ".marvin_pid")
     subprocess.Popen(
-        ["bash", queue_script, "enqueue", clip_path],
+        ["bash", play_script, clip_path, pid_file],
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
