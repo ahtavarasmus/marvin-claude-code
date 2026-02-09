@@ -32,9 +32,20 @@ if [ "$dynamic" = "true" ] && [ -n "$anthropic_key" ] && [ -n "$elevenlabs_key" 
     if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
         exit 0
     fi
-    python3 "$SCRIPT_DIR/marvin-dynamic.py" "$transcript_path" "$SCRIPT_DIR" "$AUDIO_DIR" &
-    echo $! > "$LOCK"
-    disown
+    # Use python to start a fully detached process in a new session
+    # (bash disown/nohup aren't enough - process gets killed when Claude exits)
+    python3 -c "
+import subprocess, os
+p = subprocess.Popen(
+    ['python3', '$SCRIPT_DIR/marvin-dynamic.py', '$transcript_path', '$SCRIPT_DIR', '$AUDIO_DIR'],
+    stdin=subprocess.DEVNULL,
+    stdout=subprocess.DEVNULL,
+    stderr=subprocess.DEVNULL,
+    start_new_session=True
+)
+with open('$LOCK', 'w') as f:
+    f.write(str(p.pid))
+"
     exit 0
 fi
 
