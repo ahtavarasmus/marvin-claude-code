@@ -46,8 +46,9 @@ https://github.com/user-attachments/assets/0d7942b6-5204-4848-8d5f-61e6b17f8691
 
 ## Requirements
 
-- macOS (uses `afplay` for audio playback)
-- `jq` installed (`brew install jq`)
+- macOS or Linux (uses `afplay` on macOS, `mpv`/`ffplay`/`paplay`/`aplay` on Linux)
+- `python3` installed
+- `jq` installed (`brew install jq` on macOS, `apt install jq` on Linux)
 
 ## Installation
 
