@@ -1,7 +1,7 @@
 {
   "name": "marvin-paranoid-android",
-  "version": "1.0.0",
-  "description": "Marvin the Paranoid Android audio hooks - 400 voice clips providing depressing commentary on your Claude Code sessions. Covers task completion, errors, questions, plans, permissions, and session starts.",
+  "version": "2.0.0",
+  "description": "Marvin the Paranoid Android audio hooks - 490 voice clips providing depressing commentary on your Claude Code sessions. Covers task completion, errors, questions, plans, permissions, session starts, resumes, compaction, and memory wipes.",
   "author": {
     "name": "Rasmus Ahtava",
     "url": "https://github.com/ahtavarasmus"
