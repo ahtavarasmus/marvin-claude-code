@@ -1,8 +1,11 @@
 #!/bin/bash
-# Kill any still-playing permission audio when a tool starts executing
+# Kill any still-playing or pending permission audio when a tool starts executing
 # This cuts Marvin off when the user accepts a permission
 
 input=$(cat)
+
+# Cancel any pending (not yet playing) permission audio for this session
+rm -f /tmp/marvin-permission-pending/${PPID}_* 2>/dev/null
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"

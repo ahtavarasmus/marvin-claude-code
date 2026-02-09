@@ -20,15 +20,34 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 AUDIO_DIR="$(dirname "$SCRIPT_DIR")/audio"
 PLAYLIST="$AUDIO_DIR/.playlist"
 
-# If playlist is empty or missing, reshuffle all clips
+# Dynamic mode: generate context-aware quip via LLM + TTS
+dynamic=$(jq -r '.dynamic // false' "$CONFIG" 2>/dev/null)
+anthropic_key=$(jq -r '.anthropic_api_key // ""' "$CONFIG" 2>/dev/null)
+elevenlabs_key=$(jq -r '.elevenlabs_api_key // ""' "$CONFIG" 2>/dev/null)
+transcript_path=$(echo "$input" | jq -r '.transcript_path // ""')
+
+if [ "$dynamic" = "true" ] && [ -n "$anthropic_key" ] && [ -n "$elevenlabs_key" ] && [ -n "$transcript_path" ] && [ -f "$transcript_path" ]; then
+    # Skip if a dynamic generation is already running for this session
+    LOCK="/tmp/marvin-dynamic-$PPID.lock"
+    if [ -f "$LOCK" ] && kill -0 "$(cat "$LOCK" 2>/dev/null)" 2>/dev/null; then
+        exit 0
+    fi
+    python3 "$SCRIPT_DIR/marvin-dynamic.py" "$transcript_path" "$SCRIPT_DIR" "$AUDIO_DIR" &
+    echo $! > "$LOCK"
+    disown
+    exit 0
+fi
+
+# Fallback: pre-generated clips with shuffled playlist
 if [ ! -s "$PLAYLIST" ]; then
     ls "$AUDIO_DIR"/marvin_[0-9]*.mp3 2>/dev/null | sort -R > "$PLAYLIST"
 fi
 
-# Pop the first clip from the playlist
 clip=$(head -1 "$PLAYLIST")
 tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
-"$SCRIPT_DIR/marvin-play.sh" "$clip" "$AUDIO_DIR/.marvin_pid"
+if [ -n "$clip" ] && [ -f "$clip" ]; then
+    "$SCRIPT_DIR/marvin-play.sh" "$clip" "$AUDIO_DIR/.marvin_pid"
+fi
 
 exit 0

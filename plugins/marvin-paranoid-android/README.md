@@ -125,8 +125,63 @@ Set any hook to `false` to disable it. If the config file doesn't exist, all hoo
 | `plan` | Reaction to plans being presented |
 | `error` | Reaction to tool failures |
 | `permission` | Commentary on permission requests |
+| `dynamic` | Enable dynamic context-aware quips (see below) |
+| `anthropic_api_key` | Anthropic API key for dynamic mode |
+| `elevenlabs_api_key` | ElevenLabs API key for dynamic mode |
+| `voice_id` | ElevenLabs voice ID (optional, has default) |
 
 Run `/marvin-status` to see current settings.
+
+## Dynamic Mode
+
+Instead of playing pre-generated clips, dynamic mode makes Marvin react to what actually happened in your session. When a task completes:
+
+1. Marvin reads the conversation transcript
+2. Claude Haiku generates a context-aware quip in Marvin's voice
+3. ElevenLabs TTS converts it to speech
+4. Marvin delivers his unique commentary on YOUR specific task
+
+This is opt-in and requires API keys. On any failure, it silently falls back to pre-generated clips.
+
+### Setup
+
+Add these fields to `~/.config/marvin/config.json`:
+
+```json
+{
+  "dynamic": true,
+  "anthropic_api_key": "sk-ant-...",
+  "elevenlabs_api_key": "sk_..."
+}
+```
+
+Optionally set a custom ElevenLabs voice ID (defaults to the standard Marvin voice):
+
+```json
+{
+  "voice_id": "DVRu6guJ4N9Ox6AXBtoL"
+}
+```
+
+### Requirements
+
+- `python3` (no additional pip packages needed)
+- Anthropic API key
+- ElevenLabs API key
+
+### Cost
+
+Pre-generated clips are completely free - no API keys needed, no usage costs.
+
+Dynamic mode costs a small amount per quip:
+
+- **Claude Haiku**: fractions of a cent per quip (~1000 input tokens, ~50 output tokens)
+- **ElevenLabs TTS**: each quip uses ~100-150 characters
+  - Free tier: 10,000 characters/month - roughly 70+ quips at no cost
+  - Starter plan ($5/mo): 30,000 characters included - 200+ quips/month
+  - Overages: $0.03-0.05 per quip depending on plan tier
+
+A typical dynamic quip costs well under $0.05 total.
 
 ## Commands
 

@@ -40,7 +40,29 @@ fi
 clip=$(head -1 "$PLAYLIST")
 tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
-"$SCRIPT_DIR/marvin-play.sh" "$clip" "$AUDIO_DIR/.marvin_pid"
-cp "$AUDIO_DIR/.marvin_pid" "$AUDIO_DIR/.permission_pid" 2>/dev/null
+# Delay before playing - gives user time to accept and cancel the audio
+PENDING_DIR="/tmp/marvin-permission-pending"
+mkdir -p "$PENDING_DIR"
+
+# Cancel any prior pending audio for this Claude instance
+rm -f "$PENDING_DIR"/${PPID}_* 2>/dev/null
+
+if [ -n "$clip" ] && [ -f "$clip" ]; then
+    pending_file="$PENDING_DIR/${PPID}_$$_${RANDOM}"
+    printf '%s\n' "$clip" > "$pending_file"
+
+    (
+        sleep 4
+        if [ -f "$pending_file" ]; then
+            clip_path=$(cat "$pending_file" 2>/dev/null)
+            rm -f "$pending_file"
+            if [ -n "$clip_path" ] && [ -f "$clip_path" ]; then
+                "$SCRIPT_DIR/marvin-play.sh" "$clip_path" "$AUDIO_DIR/.marvin_pid"
+                cp "$AUDIO_DIR/.marvin_pid" "$AUDIO_DIR/.permission_pid" 2>/dev/null
+            fi
+        fi
+    ) &
+    disown
+fi
 
 exit 0
