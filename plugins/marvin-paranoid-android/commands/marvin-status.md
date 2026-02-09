@@ -28,6 +28,7 @@ Example config to disable permission hooks and enable dynamic mode:
   "dynamic": true,
   "anthropic_api_key": "sk-ant-...",
   "elevenlabs_api_key": "sk_...",
-  "voice_id": "DVRu6guJ4N9Ox6AXBtoL"
+  "voice_id": "DVRu6guJ4N9Ox6AXBtoL",
+  "permission_delay": 5
 }
 ```

@@ -129,6 +129,7 @@ Set any hook to `false` to disable it. If the config file doesn't exist, all hoo
 | `anthropic_api_key` | Anthropic API key for dynamic mode |
 | `elevenlabs_api_key` | ElevenLabs API key for dynamic mode |
 | `voice_id` | ElevenLabs voice ID (optional, has default) |
+| `permission_delay` | Seconds to wait before playing permission audio (default: 5) |
 
 Run `/marvin-status` to see current settings.
 

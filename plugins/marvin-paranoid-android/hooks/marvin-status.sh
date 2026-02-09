@@ -16,6 +16,8 @@ if [ -f "$CONFIG" ]; then
             echo "  $hook: enabled"
         fi
     done
+    pdelay=$(jq -r '.permission_delay // 5' "$CONFIG" 2>/dev/null)
+    echo "  permission_delay: ${pdelay}s"
 else
     echo "Config: not created (all hooks enabled by default)"
     echo "  To customize, create $CONFIG"
