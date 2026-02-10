@@ -4,6 +4,13 @@
 
 input=$(cat)
 
+# Set cancel marker FIRST - this closes the race window where the background
+# subshell has already passed the pending-file check but hasn't started playing yet.
+# The subshell checks this marker after starting playback and self-kills if set.
+CANCEL_DIR="/tmp/marvin-permission-cancel"
+mkdir -p "$CANCEL_DIR"
+touch "$CANCEL_DIR/${PPID}"
+
 # Cancel any pending (not yet playing) permission audio for this session
 rm -f /tmp/marvin-permission-pending/${PPID}_* 2>/dev/null
 

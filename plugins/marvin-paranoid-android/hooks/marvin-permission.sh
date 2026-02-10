@@ -42,10 +42,14 @@ tail -n +2 "$PLAYLIST" > "$PLAYLIST.tmp" && mv "$PLAYLIST.tmp" "$PLAYLIST"
 
 # Delay before playing - gives user time to accept and cancel the audio
 PENDING_DIR="/tmp/marvin-permission-pending"
+CANCEL_DIR="/tmp/marvin-permission-cancel"
 mkdir -p "$PENDING_DIR"
 
 # Cancel any prior pending audio for this Claude instance
 rm -f "$PENDING_DIR"/${PPID}_* 2>/dev/null
+
+# Clear stale cancel marker from previous permission cycle
+rm -f "$CANCEL_DIR/${PPID}" 2>/dev/null
 
 if [ -n "$clip" ] && [ -f "$clip" ]; then
     pending_file="$PENDING_DIR/${PPID}_$$_${RANDOM}"
@@ -58,8 +62,16 @@ if [ -n "$clip" ] && [ -f "$clip" ]; then
             clip_path=$(cat "$pending_file" 2>/dev/null)
             rm -f "$pending_file"
             if [ -n "$clip_path" ] && [ -f "$clip_path" ]; then
-                "$SCRIPT_DIR/marvin-play.sh" "$clip_path" "$AUDIO_DIR/.marvin_pid"
-                cp "$AUDIO_DIR/.marvin_pid" "$AUDIO_DIR/.permission_pid" 2>/dev/null
+                "$SCRIPT_DIR/marvin-play.sh" "$clip_path" "$AUDIO_DIR/.permission_pid"
+
+                # Race condition fix: if permission was accepted while we were
+                # starting playback, kill the audio now and clean up
+                if [ -f "$CANCEL_DIR/${PPID}" ]; then
+                    pid=$(cat "$AUDIO_DIR/.permission_pid" 2>/dev/null)
+                    [ -n "$pid" ] && kill "$pid" 2>/dev/null
+                    rm -f "$AUDIO_DIR/.permission_pid"
+                    rm -f "$CANCEL_DIR/${PPID}"
+                fi
             fi
         fi
     ) &
