@@ -56,22 +56,14 @@ if [ -n "$clip" ] && [ -f "$clip" ]; then
     printf '%s\n' "$clip" > "$pending_file"
 
     (
-        delay=$(jq -r '.permission_delay // 5' "$HOME/.config/marvin/config.json" 2>/dev/null || echo 5)
+        delay=$(jq -r '.permission_delay // 10' "$HOME/.config/marvin/config.json" 2>/dev/null || echo 10)
         sleep "$delay"
         if [ -f "$pending_file" ]; then
             clip_path=$(cat "$pending_file" 2>/dev/null)
             rm -f "$pending_file"
             if [ -n "$clip_path" ] && [ -f "$clip_path" ]; then
-                "$SCRIPT_DIR/marvin-play.sh" "$clip_path" "$AUDIO_DIR/.permission_pid"
-
-                # Race condition fix: if permission was accepted while we were
-                # starting playback, kill the audio now and clean up
-                if [ -f "$CANCEL_DIR/${PPID}" ]; then
-                    pid=$(cat "$AUDIO_DIR/.permission_pid" 2>/dev/null)
-                    [ -n "$pid" ] && kill "$pid" 2>/dev/null
-                    rm -f "$AUDIO_DIR/.permission_pid"
-                    rm -f "$CANCEL_DIR/${PPID}"
-                fi
+                # Pass cancel file so play.sh can skip if permission was accepted while queued
+                "$SCRIPT_DIR/marvin-play.sh" "$clip_path" "$AUDIO_DIR/.permission_pid" "$CANCEL_DIR/${PPID}"
             fi
         fi
     ) &
