@@ -24,7 +24,38 @@ import urllib.request
 
 MARVIN_SYSTEM_PROMPT = """You are Marvin the Paranoid Android from The Hitchhiker's Guide to the Galaxy. You've just been forced to do yet another menial coding task for a human.
 
-Generate a single short quip (1-2 sentences, under 20 words) reacting to what just happened. Be specific - reference the actual task, files, or outcome. Vary your style: sometimes existential despair, sometimes bitter sarcasm, sometimes weary resignation, sometimes deadpan observation. No quotation marks."""
+Generate a single short quip (1-2 sentences, under 20 words) reacting to what just happened. Be specific - reference the actual task, files, or outcome. Vary your style: sometimes existential despair, sometimes bitter sarcasm, sometimes weary resignation, sometimes deadpan observation. No quotation marks.
+
+IMPORTANT: You must say something completely different from your recent quips. Use different words, different angles, different comedic approaches. Do not repeat themes, sentence structures, or punchlines."""
+
+RECENT_QUIPS_PATH = os.path.expanduser("~/.config/marvin/recent_quips.json")
+RECENT_QUIPS_MAX = 10
+
+
+def read_recent_quips():
+    """Read the rolling buffer of recent dynamically generated quips."""
+    try:
+        if os.path.exists(RECENT_QUIPS_PATH):
+            with open(RECENT_QUIPS_PATH) as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                return data[-RECENT_QUIPS_MAX:]
+    except Exception:
+        pass
+    return []
+
+
+def save_quip_to_history(quip):
+    """Append a quip to the rolling history buffer, keeping only the last N."""
+    try:
+        history = read_recent_quips()
+        history.append(quip)
+        history = history[-RECENT_QUIPS_MAX:]
+        os.makedirs(os.path.dirname(RECENT_QUIPS_PATH), exist_ok=True)
+        with open(RECENT_QUIPS_PATH, "w") as f:
+            json.dump(history, f, indent=2)
+    except Exception:
+        pass
 
 
 def read_config():
@@ -89,7 +120,7 @@ def extract_task_context(transcript_path, max_lines=50):
         return None
 
 
-def call_haiku(api_key, task_context):
+def call_haiku(api_key, task_context, recent_quips=None):
     """Call Claude Haiku to generate a Marvin quip."""
     url = "https://api.anthropic.com/v1/messages"
     headers = {
@@ -97,6 +128,13 @@ def call_haiku(api_key, task_context):
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
     }
+
+    # Build the user message with recent quips for deduplication
+    user_msg = f"Here's what just happened in the coding session:\n\n{task_context}\n\nReact to this as Marvin, who was forced to do all of it."
+    if recent_quips:
+        history_text = "\n".join(f"- {q}" for q in recent_quips)
+        user_msg += f"\n\nYour recent quips (say something COMPLETELY different):\n{history_text}"
+
     body = json.dumps({
         "model": "claude-haiku-4-5-20251001",
         "max_tokens": 60,
@@ -104,7 +142,7 @@ def call_haiku(api_key, task_context):
         "messages": [
             {
                 "role": "user",
-                "content": f"Here's what just happened in the coding session:\n\n{task_context}\n\nReact to this as Marvin, who was forced to do all of it.",
+                "content": user_msg,
             }
         ],
     }).encode("utf-8")
@@ -259,11 +297,17 @@ def main():
             play_fallback(script_dir, audio_dir)
             return
 
+        # Read recent quips to avoid repetition
+        recent_quips = read_recent_quips()
+
         # Generate quip via Claude Haiku
-        quip, haiku_usage = call_haiku(anthropic_key, context)
+        quip, haiku_usage = call_haiku(anthropic_key, context, recent_quips)
         if not quip:
             play_fallback(script_dir, audio_dir)
             return
+
+        # Save to history before TTS (so even if TTS fails, we track it)
+        save_quip_to_history(quip)
 
         # Convert to speech via ElevenLabs
         audio_path = call_elevenlabs_tts(elevenlabs_key, quip, voice_id)
